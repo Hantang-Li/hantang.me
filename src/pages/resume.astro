@@ -1,0 +1,210 @@
+---
+import Base from '../layouts/Base.astro';
+import { site, experience, education, skills, fmtMonth } from '../data/site';
+---
+
+<Base title="Resume" description="Resume of Hantang Li: software engineer in AI and infrastructure, MScAC from the University of Toronto.">
+  <div class="wrap">
+    <header class="page-head">
+      <p class="eyebrow">Resume</p>
+      <h1>{site.name}</h1>
+      <p>
+        Software engineer with a research background in generative AI and computer vision, and production experience
+        in large-scale distributed infrastructure. Currently studying mechanistic interpretability.
+      </p>
+      <div class="cta no-print">
+        <button class="btn primary" type="button" onclick="window.print()">Print / save as PDF</button>
+        <button class="btn" type="button" id="copy-email" data-email={site.email} title="Copy email address">
+          <svg viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="9" y="9" width="11" height="11" rx="2"></rect>
+            <path d="M5 15V6a2 2 0 0 1 2-2h9"></path>
+          </svg>
+          <span class="label">{site.email}</span>
+        </button>
+      </div>
+      <p class="print-only">{site.email} · {site.location} · hantang.me</p>
+    </header>
+
+    <section class="block">
+      <h2>Experience</h2>
+      {
+        experience.map((j) => (
+          <article class="item">
+            <div class="row">
+              <h3>
+                {j.role} <span class="at">· {j.org}</span>
+              </h3>
+              <span class="mono when">
+                {fmtMonth(j.start)} – {fmtMonth(j.end)}
+              </span>
+            </div>
+            <p class="sub">{[j.team, j.place].filter(Boolean).join(' · ')}</p>
+            <p class="line">{j.oneLine}</p>
+          </article>
+        ))
+      }
+    </section>
+
+    <section class="block">
+      <h2>Education</h2>
+      {
+        education.map((e) => (
+          <article class="item">
+            <div class="row">
+              <h3>
+                {e.degree} <span class="at">· {e.school}</span>
+              </h3>
+              <span class="mono when">
+                {fmtMonth(e.start)} – {fmtMonth(e.end)}
+              </span>
+            </div>
+            <p class="sub">{e.notes}</p>
+          </article>
+        ))
+      }
+    </section>
+
+    <section class="block">
+      <h2>Skills</h2>
+      <dl>
+        {
+          skills.map((s) => (
+            <>
+              <dt class="mono">{s.group}</dt>
+              <dd>{s.items.join(' · ')}</dd>
+            </>
+          ))
+        }
+      </dl>
+    </section>
+
+    <section class="block">
+      <h2>Patent</h2>
+      <p>
+        <a href="https://patents.google.com/patent/US12169850B1" rel="noopener">US Patent 12,169,850 B1</a>:
+        Enhancing content and layout control with generative systems.
+      </p>
+    </section>
+  </div>
+</Base>
+
+<script>
+  const btn = document.getElementById('copy-email');
+  if (btn) {
+    const label = btn.querySelector('.label')!;
+    const email = btn.dataset.email!;
+    let timer: number | undefined;
+    btn.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(email);
+        label.textContent = 'Copied!';
+        window.clearTimeout(timer);
+        timer = window.setTimeout(() => (label.textContent = email), 1600);
+      } catch {
+        // Clipboard blocked: fall back to opening the mail client
+        window.location.href = `mailto:${email}`;
+      }
+    });
+  }
+</script>
+
+<style>
+  .cta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 22px;
+  }
+  button.btn {
+    font-family: inherit;
+    cursor: pointer;
+  }
+  .print-only {
+    display: none;
+  }
+  .block {
+    max-width: 820px;
+    padding: 36px 0;
+    border-top: 1px solid var(--line);
+  }
+  .block h2 {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+  }
+  .item {
+    margin-bottom: 26px;
+    break-inside: avoid;
+  }
+  .row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .row h3 {
+    font-size: 1.15rem;
+  }
+  .at {
+    color: var(--ink-2);
+  }
+  .when {
+    color: var(--ink-3);
+    white-space: nowrap;
+  }
+  .sub {
+    margin: 4px 0 10px;
+    color: var(--ink-2);
+    font-size: 0.92rem;
+  }
+  .line {
+    margin: 0;
+    font-size: 0.97rem;
+  }
+  dl {
+    display: grid;
+    grid-template-columns: 120px 1fr;
+    gap: 10px 16px;
+    margin: 0;
+  }
+  dt {
+    color: var(--seal);
+    padding-top: 4px;
+  }
+  dd {
+    margin: 0;
+  }
+  @media (max-width: 560px) {
+    dl {
+      grid-template-columns: 1fr;
+      gap: 2px 0;
+    }
+    dd {
+      margin-bottom: 10px;
+    }
+  }
+  @media print {
+    .print-only {
+      display: block;
+      margin: 6pt 0 0;
+      font-size: 10pt;
+    }
+    .block {
+      max-width: none;
+      padding: 10pt 0 2pt;
+    }
+    .block h2 {
+      font-size: 13pt;
+      margin-bottom: 8pt;
+    }
+    .item {
+      margin-bottom: 9pt;
+    }
+    .row h3 {
+      font-size: 11pt;
+    }
+    .sub {
+      margin: 1pt 0 3pt;
+    }
+  }
+</style>

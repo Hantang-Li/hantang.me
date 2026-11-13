@@ -1,0 +1,70 @@
+---
+import type { Project } from '../data/site';
+
+interface Props {
+  project: Project;
+}
+const { project: p } = Astro.props;
+const Tag = p.href ? 'a' : 'div';
+---
+
+<Tag class="card" href={p.href} rel={p.href ? 'noopener' : undefined}>
+  <div class="meta mono">
+    <span>{p.kind}</span>
+    {p.year && <span>{p.year}</span>}
+  </div>
+  <h3>
+    {p.title}
+    {p.href && <span class="arrow" aria-hidden="true">↗</span>}
+  </h3>
+  <p>{p.summary}</p>
+  <ul class="tags">
+    {p.tags.map((t) => <li>{t}</li>)}
+  </ul>
+</Tag>
+
+<style>
+  .card {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 22px;
+    border: 1px solid var(--card-line);
+    border-radius: 14px;
+    background: var(--card);
+    box-shadow: var(--card-shadow);
+    text-decoration: none;
+    color: inherit;
+    transition: border-color 0.15s, transform 0.15s, box-shadow 0.15s;
+  }
+  a.card:hover {
+    border-color: color-mix(in srgb, var(--seal) 55%, var(--card-line));
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px color-mix(in srgb, var(--seal) 12%, transparent);
+    color: inherit;
+  }
+  .meta {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    color: var(--seal);
+  }
+  .meta span:last-child:not(:first-child) {
+    color: var(--ink-3);
+  }
+  h3 {
+    font-size: 1.3rem;
+  }
+  .arrow {
+    font-family: var(--sans);
+    font-size: 0.9rem;
+    color: var(--ink-3);
+    margin-left: 4px;
+  }
+  p {
+    margin: 0;
+    color: var(--ink-2);
+    font-size: 0.95rem;
+    flex: 1;
+  }
+</style>

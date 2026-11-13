@@ -1,0 +1,164 @@
+---
+import { Image } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import childhood from '../assets/childhood.png';
+import { site } from '../data/site';
+
+const story = [
+  ['2026', 'Left AWS in October to go deeper into AI. Now studying mechanistic interpretability.'],
+  ['2025', 'Joined AWS as a Software Development Engineer, working on distributed infrastructure.'],
+  ['2024', 'The system I built at Ecomtent became part of a granted US patent.'],
+  ['2023', 'Joined Ecomtent (now Azoma) for my MScAC internship and built its generative product-listing system; finished the degree in December.'],
+  ['2022', 'Started my MScAC, and was a teaching assistant for CSC207: Software Design.'],
+  ['2021', 'Began CT perfusion synthesis research at Sunnybrook’s AICONS lab.'],
+  ['2020', 'Spent a co-op year on the video understanding team at Huawei Noah’s Ark Lab in Markham.'],
+  ['2017', 'Started at New College, University of Toronto: Computer Science and Data Science specialist.'],
+];
+const mscacProject = 'https://www.cs.toronto.edu/dcs/documents/mscac/projects/?project_id=1051&view=full';
+const instagram = (site.links as Record<string, string>).instagram;
+---
+
+<Base title="About" description="About Hantang Li: a software engineer in Toronto with a background in AI research and distributed infrastructure, now studying mechanistic interpretability.">
+  <div class="wrap">
+    <header class="page-head">
+      <p class="eyebrow">About</p>
+      <h1>Research, production, and back to AI</h1>
+    </header>
+
+    <div class="cols">
+      <div class="prose">
+        <p>
+          I’m Hantang ({site.nameZh}), a software engineer based in Toronto. I started in research: video
+          understanding at Huawei Noah’s Ark Lab, then medical imaging at Sunnybrook.
+        </p>
+        <p>
+          During my master’s at the University of Toronto, I joined Ecomtent (now Azoma) through the program’s
+          internship and ended up working as part of the early engineering team: I designed and built their{' '}
+          <a href={mscacProject} rel="noopener">generative system for product listings and infographics</a>.
+          That system later became part of a US patent. I then spent close to two years at AWS on large-scale
+          distributed infrastructure, which taught me what it takes to keep a system standing in production.
+        </p>
+        <p>
+          AI is still what I’m most curious about, and I follow the frontier closely. I left AWS in October 2026 to
+          explore that more directly: I’m currently on a three-month plan studying mechanistic interpretability while
+          looking for my next role.
+        </p>
+
+        <h2>Timeline</h2>
+        <ol class="story">
+          {
+            story.map(([year, text]) => (
+              <li>
+                <span class="mono">{year}</span>
+                <span>{text}</span>
+              </li>
+            ))
+          }
+        </ol>
+
+        <h2>Beyond work</h2>
+        <ul class="beyond">
+          <li>
+            <span class="mono">Singing</span>
+            <span>
+              I sing with the Allegro choir, and once got to sing{' '}
+              <a href="https://www.youtube.com/watch?v=9LcC4wul-hw" rel="noopener">a short solo</a>.
+            </span>
+          </li>
+          <li>
+            <span class="mono">Listening</span>
+            <span>I’m a bit of an audiophile, with more headphones than I can reasonably justify.</span>
+          </li>
+          <li>
+            <span class="mono">Playing</span>
+            <span>Genshin Impact for the world, Street Fighter for the fights.</span>
+          </li>
+        </ul>
+        {
+          instagram && (
+            <p>
+              More of this side of me is on <a href={instagram} rel="me noopener">Instagram</a>.
+            </p>
+          )
+        }
+      </div>
+
+      <figure>
+        <Image src={childhood} alt="Hantang at three years old, sitting at a desktop computer" widths={[360, 720]} sizes="360px" />
+        <figcaption class="mono">Me at the computer, age 3. Some things don’t change.</figcaption>
+      </figure>
+    </div>
+  </div>
+</Base>
+
+<style>
+  .cols {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 320px;
+    gap: 56px;
+    align-items: start;
+    padding-bottom: 56px;
+  }
+  .prose > p:first-child {
+    font-size: 1.15rem;
+  }
+  .story {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .story li {
+    display: grid;
+    grid-template-columns: 56px 1fr;
+    gap: 14px;
+    padding: 10px 0;
+    margin: 0;
+    border-bottom: 1px solid var(--line);
+    align-items: baseline;
+  }
+  .story .mono {
+    color: var(--seal);
+  }
+  .beyond {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 1em;
+  }
+  .beyond li {
+    display: grid;
+    grid-template-columns: 96px 1fr;
+    gap: 14px;
+    padding: 10px 0;
+    margin: 0;
+    border-bottom: 1px solid var(--line);
+    align-items: baseline;
+  }
+  .beyond .mono {
+    color: var(--accent-2);
+  }
+  figure {
+    margin: 0;
+    position: sticky;
+    top: 84px;
+  }
+  figure img {
+    display: block;
+    width: 100%;
+    border-radius: 14px;
+    border: 1px solid var(--line);
+  }
+  figcaption {
+    margin-top: 10px;
+    color: var(--ink-3);
+  }
+  @media (max-width: 820px) {
+    .cols {
+      grid-template-columns: 1fr;
+      gap: 32px;
+    }
+    figure {
+      position: static;
+      max-width: 360px;
+    }
+  }
+</style>

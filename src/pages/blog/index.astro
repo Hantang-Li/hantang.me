@@ -1,0 +1,27 @@
+---
+import Base from '../../layouts/Base.astro';
+import PostList from '../../components/PostList.astro';
+import { getPosts } from '../../lib/posts';
+
+const posts = await getPosts();
+---
+
+<Base title="Writing" description="Notes by Hantang Li on AI interpretability, applied LLMs, and the systems underneath.">
+  <div class="wrap">
+    <header class="page-head">
+      <p class="eyebrow">Writing</p>
+      <h1>Field notes</h1>
+      <p>What I’m learning at the AI frontier: interpretability, applied LLMs, and the systems underneath.</p>
+    </header>
+    <div class="list">
+      <PostList posts={posts} />
+    </div>
+  </div>
+</Base>
+
+<style>
+  .list {
+    max-width: 780px;
+    padding-bottom: 56px;
+  }
+</style>
