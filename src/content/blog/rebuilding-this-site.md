@@ -3,7 +3,7 @@ title: "Rebuilding this site with an AI agent"
 description: "How I replaced an old academic template in one afternoon, what I decided myself, and what I left to the agent."
 date: 2026-11-13
 tags: ["meta", "design", "agents"]
-draft: true
+draft: false
 ---
 
 My old homepage was a fork of an academic template from my master's days. It listed papers and talks I did not
